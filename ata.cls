@@ -1,24 +1,23 @@
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ata}
-  [2012/11/14 v1.0 Ata de Reunião Departamental -- fnaufel at gmail.com]
+  [2012/11/21 v1.0 Ata de Reunião Departamental -- fnaufel at gmail.com]
 
 
 %%%%%%%%%% Pacotes necessários:
 \RequirePackage{ifthen}
 \RequirePackage{paralist}
 \RequirePackage{lineno}
-\RequirePackage{paralist}
 
 
-%%%%%%%%%% Opções:
+%%%%%%%%%% Opções de invocação:
 
-% Usar pacote beton (font)
+% Usar pacote beton (usa fonts Concrete).
 \newboolean{@beton}
 \setboolean{@beton}{false}
 \DeclareOption{beton}%
     {\setboolean{@beton}{true}}
 
-% Usar pacote euler (font matemático)
+% Usar pacote euler (usa fonts Euler para matemática).
 \newboolean{@euler}
 \setboolean{@euler}{false}
 \DeclareOption{euler}%
@@ -47,6 +46,12 @@
 {}
 
 
+%%%%%%%%%% Opções de configuração pelo usuário:
+
+% Estilo do nome do ponto da pauta:
+\newcommand{\@estilonomeponto}{\bfseries}
+
+
 %%%%%%%%%% Comandos para processar a data:
 
 \newcounter{@dia}
@@ -66,7 +71,7 @@
 }
 
 % Se estivermos usando euler, queremos que os números fiquem bonitos;
-% então, usamos modo matemático.
+% então, usamos modo matemático para a data.
 \newcommand{\hoje}{%
   $\arabic{@dia}$/$\arabic{@mes}$/$\arabic{@ano}$%
 }
@@ -74,7 +79,7 @@
 \newcommand{\hojeporextenso}{%
   % Nomes dos meses.
   % É preciso defini-los aqui dentro deste \newcommand, para que 
-  % apareçam com o font correto (concrete ou não).
+  % apareçam com o font correto (Concrete ou não).
   \expandafter\newbox\csname mes1\endcsname%
   \expandafter\newbox\csname mes2\endcsname%
   \expandafter\newbox\csname mes3\endcsname%
@@ -99,7 +104,7 @@
   \expandafter\setbox\csname mes10\endcsname=\hbox{outubro}%
   \expandafter\setbox\csname mes11\endcsname=\hbox{novembro}%
   \expandafter\setbox\csname mes12\endcsname=\hbox{dezembro}%
-  \ifthenelse{\the@dia = 1}{Ao}{Aos}
+  \ifthenelse{\the@dia=1}{Ao}{Aos}
   $\arabic{@dia}$
   de 
   \expandafter\unhbox\csname mes\the@mes\endcsname
@@ -108,23 +113,21 @@
 }
 
 
-%%%%%%%%%% Tipo de reunião:
-\newcommand{\deftiporeuniao}[1]{
-  \newbox\@tiporeuniao%
-  \setbox\@tiporeuniao=\hbox{\ignorespaces #1\unskip}%
-  \newcommand{\tiporeuniao}{\unskip{} \unhbox\@tiporeuniao}%
+%%%%%%%%%% Tipo de reunião.
+% Não usa caixas, pois poderia causar diferença de fonts.
+\newcommand{\deftiporeuniao}[1]{%
+  \newcommand{\tiporeuniao}[1]{#1}%
 }
 
 
-%%%%%%%%%% Tipo de reunião (advérbio):
-\newcommand{\deftiporeuniaoadv}[1]{
-  \newbox\@tiporeuniaoadv%
-  \setbox\@tiporeuniaoadv=\hbox{\ignorespaces #1\unskip}%
-  \newcommand{\tiporeuniaoadv}{\unskip{} \unhbox\@tiporeuniaoadv}%
+%%%%%%%%%% Tipo de reunião (advérbio).
+% Não usa caixas, pois poderia causar diferença de fonts.
+\newcommand{\deftiporeuniaoadv}[1]{%
+  \newcommand{\tiporeuniaoadv}[1]{#1}%
 }
 
 
-%%%%%%%%%% Cabeçalho:
+%%%%%%%%%% Cabeçalho. Atenção para o vskip.
 \newcommand{\cabecalho}[1]{%
   \title{\large #1}
   \author{}
@@ -137,42 +140,43 @@
 
 
 %%%%%%%%%% Nome de quem presidiu:
-\newcommand{\defpresidiu}[1]{
-  \newbox\@presidiu%
-  \setbox\@presidiu=\hbox{\ignorespaces #1\unskip}%
-  \newcommand{\presidiu}{\unskip{} \unhbox\@presidiu}%
+\newcommand{\defpresidiu}[1]{%
+  \newcommand{\presidiu}{#1}%
 }
 
 
 %%%%%%%%%% Cargo de quem presidiu:
-\newcommand{\defcargopresidiu}[1]{
-  \newbox\@cargopresidiu%
-  \setbox\@cargopresidiu=\hbox{\ignorespaces #1\unskip}%
-  \newcommand{\cargopresidiu}{\unskip{} \unhbox\@cargopresidiu}%
+\newcommand{\defcargopresidiu}[1]{%
+  \newcommand{\cargopresidiu}{#1}%
 }
 
 
 %%%%%%%%%% Nome de quem secretariou:
-\newcommand{\defsecretariou}[1]{
-  \newbox\@secretariou%
-  \setbox\@secretariou=\hbox{\ignorespaces #1\unskip}%
-  \newcommand{\secretariou}{\unskip{} \unhbox\@secretariou}%
+\newcommand{\defsecretariou}[1]{%
+  \newcommand{\secretariou}{#1}%
 }
 
 
-%%%%%%%%%% Presentes e ausentes:
+%%%%%%%%%% Presentes e ausentes.
+
+% Lista de presentes.
+% Atenção: produz um espaço ANTES da lista. É intencional.
 \newcommand{\defpresentes}[1]{%
   \newbox\@presentes%
   \setbox\@presentes=\hbox{\ignorespaces #1\unskip}%
   \newcommand{\presentes}{\unskip{} \unhbox\@presentes}%
 }
 
+% Lista de ausentes.
+% Atenção: produz um espaço ANTES da lista. É intencional.
 \newcommand{\defausentes}[1]{%
   \newbox\@ausentes%
   \setbox\@ausentes=\hbox{#1}%
   \newcommand{\ausentes}{\unskip\unhbox\@ausentes\unskip}%
 }
 
+% Lista de ausentes com justificativa..
+% Atenção: produz um espaço ANTES da lista. É intencional.
 \newcommand{\defjustif}[1]{%
   \newbox\@justificados%
   \setbox\@justificados=\hbox{#1}%
@@ -187,14 +191,14 @@
 \setcounter{@nponto}{0}
 
 
-% Ambiente ponto. Argumento obrigatório é o nome do ponto.
+% Ambiente ponto. Argumento obrigatório: nome do ponto.
 \newenvironment{ponto}[1]
 {%
   \stepcounter{@nponto}%
-  % Cria caixa com o nome do ponto (em negrito).
+  % Cria caixa com o nome do ponto (no estilo \@estilonomeponto).
   \global\expandafter\newbox\csname @ponto\the@nponto\endcsname%
   \global\expandafter\setbox\csname @ponto\the@nponto\endcsname=%
-    \hbox{\bfseries\ignorespaces #1\unskip}%
+    \hbox{\@estilonomeponto\ignorespaces #1\unskip}%
   % Cria caixa com o corpo do ponto (em texto normal).
   \global\expandafter\newbox\csname @corpo\the@nponto\endcsname%
   \global\expandafter\setbox\csname @corpo\the@nponto\endcsname=%
@@ -238,14 +242,19 @@
 }
 
 
-%%%%%%%%%% Redefinindo itemize e enumerate para versões in parágrafos:
-\renewenvironment{enumerate}
-{\begin{inparaenum}[(a)]}
+
+%%%%%%%%%% Redefinindo itemize, enumerate, description in parágrafos:
+\renewenvironment{enumerate}[1][\bfseries (a)]
+{\begin{inparaenum}[#1]}
 {\unskip\end{inparaenum}}
 
 \renewenvironment{itemize}
 {\begin{inparaitem}}
 {\unskip\end{inparaitem}}
+
+\renewenvironment{description}
+{\begin{inparadesc}}
+{\unskip\end{inparadesc}}
 
 
 %%%%%%%%%% Abreviaturas para Prof., Profa.
