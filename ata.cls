@@ -1,3 +1,35 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% ata.cls
+% =======
+% 
+% Copyright 2012 Fernando Náufel do Amaral (fnaufel@gmail.com)
+% 
+% Classe LaTeX para formatação de atas de reunião
+% 
+% Version: 1.0 (November 2012)
+% 
+% For documentation and usage instructions, see file exemploata.tex
+% 	
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Fernando Náufel do Amaral (fnaufel@gmail.com)
+%
+% This work consists of the files ata.cls and exemploata.tex
+% and the derived file exemploata.pdf.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ata}
   [2012/11/21 v1.0 Ata de Reunião Departamental -- fnaufel at gmail.com]
@@ -49,7 +81,7 @@
 %%%%%%%%%% Opções de configuração pelo usuário:
 
 % Estilo do nome do ponto da pauta:
-\newcommand{\@estilonomeponto}{\bfseries}
+\newcommand{\estilonomeponto}{\bfseries}
 
 
 %%%%%%%%%% Comandos para processar a data:
@@ -191,14 +223,16 @@
 \setcounter{@nponto}{0}
 
 
-% Ambiente ponto. Argumento obrigatório: nome do ponto.
-\newenvironment{ponto}[1]
+% Ambiente ponto. Argumento opcional: label para referências. 
+% Argumento obrigatório: nome do ponto.
+\newenvironment{ponto}[2][@vazio]
 {%
-  \stepcounter{@nponto}%
-  % Cria caixa com o nome do ponto (no estilo \@estilonomeponto).
+  \refstepcounter{@nponto}%
+  \ifthenelse{\equal{#1}{@vazio}}{}{\label{#1}}%
+  % Cria caixa com o nome do ponto (no estilo \estilonomeponto).
   \global\expandafter\newbox\csname @ponto\the@nponto\endcsname%
   \global\expandafter\setbox\csname @ponto\the@nponto\endcsname=%
-    \hbox{\@estilonomeponto\ignorespaces #1\unskip}%
+    \hbox{\estilonomeponto\ignorespaces #2\unskip}%
   % Cria caixa com o corpo do ponto (em texto normal).
   \global\expandafter\newbox\csname @corpo\the@nponto\endcsname%
   \global\expandafter\setbox\csname @corpo\the@nponto\endcsname=%

@@ -1,0 +1,374 @@
+
+\documentclass[12pt,a4paper,euler,beton]{ata} 
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage{url}
+
+\begin{document}
+
+
+% Data da reunião.
+\dia{26}
+\mes{11}
+\ano{2012}
+
+
+% Tipo da reunião.
+\deftiporeuniao{Ordinária}
+% Advérbio correspondente ao tipo da reunião.
+\deftiporeuniaoadv{ordinariamente}
+
+
+% Cabeçalho com quebras de linhas manuais. 
+% Basicamente sempre o mesmo.
+% O comando \hoje gera a data (em numerais). 
+\cabecalho{%
+  Ata da Reunião \tiporeuniao{} do \\ 
+  Departamento de Física e Matemática (RFM),\\
+  do Instituto de Ciência e Tecnologia do PURO,\\
+  Universidade Federal Fluminense\\
+  realizada em \hoje%
+}
+
+
+% Quem presidiu a reunião (sem título).
+\defpresidiu{Fernando Náufel do Amaral}
+
+
+% Cargo de quem presidiu a reunião.
+\defcargopresidiu{terceiro guru de \LaTeX{} do RFM}
+
+
+% Quem secretariou (sem título).
+\defsecretariou{Fernando Náufel do Amaral}
+
+
+% Lista de presentes. NÃO terminar com ponto.
+\defpresentes{
+  Donald Knuth,
+
+  Leslie Lamport,
+
+  Hermann Zapf,
+
+  e Dave Bowman
+}
+
+
+% Lista de ausentes justificados. NÃO terminar com ponto.
+\defjustif{
+  Richard Feynman,
+
+  Alan Turing,
+
+  Isaac Newton,
+
+  e HAL~$9001$
+}
+
+
+% Lista de ausentes. NÃO terminar com ponto.
+\defausentes{
+  José Sarney,
+
+  e Immanuel Velikovsky
+}
+
+
+% Detalhamento da pauta. Cada ponto é um ambiente da forma
+%
+%    \begin{ponto}{Nome do ponto}
+%    
+%      Corpo do ponto.
+%    
+%    \end{ponto}
+%
+% O nome do ponto não deve terminar com pontuação. O corpo sim.
+% Quebras de linha e listas de itens podem ser inseridas à vontade,
+% mas a ata inteira será diagramada como um único parágrafo.
+
+\begin{ponto}{Objetivos da classe \texttt{ata}}
+
+  Depois de escrever algumas atas de reuniões departamentais, o~\prof
+  Náufel constatou o grande sofrimento que tal tarefa pode causar.
+  Os~detalhes de formatação são tediosos, assim como é a repetição de
+  trechos (e.g., os nomes dos pontos na apresentação da pauta e no
+  desenvolvimento da reunião).
+
+  Como programar em \LaTeX{} pode ser divertido, o \prof Náufel
+  decidiu escrever a classe \texttt{ata}. (Programar em \LaTeX{}
+  também pode ser enervante às vezes, mas nem de longe tão enervante
+  quanto escrever atas.) O~\prof Náufel espera que esta classe
+  facilite a confecção e a padronização das atas das nossas reuniões
+  departamentais, e que, ao liberar o autor da ata das tarefas mais
+  chatas da \emph{formatação} das atas, esta classe contribua para a
+  boa qualidade do seu \emph{conteúdo}.
+
+  Este documento explica e ilustra o uso da classe \texttt{ata}.
+  Examine o arquivo fonte \texttt{exemploata.tex} para ver exemplos do
+  uso dos recursos da classe \texttt{ata}.
+
+\end{ponto}
+
+
+\begin{ponto}[inst]{Instalação da classe \texttt{ata}}
+  
+  \begin{enumerate}
+
+  \item Para usar a classe \texttt{ata}, basta copiar o arquivo
+    \texttt{ata.cls} para algum diretório onde sua instalação \LaTeX{}
+    o encontre. Isto depende do sistema operacional e da distribuição
+    de \LaTeX{} que você estiver usando. Na WWW, em
+    \url{en.wikibooks.org/wiki/LaTeX/Packages/Installing_Extra_Packages},\\
+    por exemplo, você pode encontrar instruções detalhadas. Observe
+    que o~arquivo \texttt{ata.cls} está sendo disponibilizado já
+    pronto para uso; não é preciso extrair nada, nem criar a
+    documentação.
+
+  \item A classe \texttt{ata} depende dos pacotes \texttt{ifthenelse}
+    (para testar condições), \texttt{paralist} (para gerar listas
+    numeradas e não numeradas sem quebra de parágrafos), e
+    \texttt{lineno} (para numerar as linhas do corpo da ata). Visite
+    \url{http://www.ctan.org/} para obter estes pacotes, caso sua
+    instalação \LaTeX{} não os inclua.
+
+  \item Caso você deseje usar os fontes \emph{Concrete} e \emph{Euler}
+    (veja o ponto~\ref{opcoes}, item~\ref{fonts}, abaixo), os
+    respectivos pacotes (\texttt{beton} e \texttt{euler}) também devem
+    estar instalados.
+
+  \end{enumerate}
+  
+\end{ponto}
+
+
+\begin{ponto}[opcoes]{Invocação da classe ata}
+
+  \begin{enumerate}
+
+  \item A classe \texttt{ata} aceita todas as opções da classe
+    \texttt{article}.
+
+  \item \label{fonts} Além delas, podem ser passadas as seguintes
+    opções:
+
+    \begin{enumerate}[(i)]
+
+    \item \texttt{euler}: faz com que seja usado os fontes matemáticos
+      Euler, criados pelo \emph{designer} de fontes Hermann Zapf em
+      colaboração com Donald Knuth (autor de \TeX). O~fonte Euler foi
+      usado para produzir, entre outros, o livro \emph{Concrete
+        Mathematics} (Addison-Wesley, $1989$), de autoria de Graham,
+      Knuth, e Patashnik. Os capítulos~$17$ e~$18$ do livro
+      \emph{Digital Typography} (CSLI, $1999$), de Donald E.~Knuth,
+      relatam a história da criação dos fontes. Embora a necessidade
+      de fontes matemáticos no texto de uma ata seja altamente
+      questionável, apenas a qualidade estética superior dos
+      algarismos já justifica esta opção. Compare você mesmo os
+      dígitos no fonte usual do \LaTeX{} (1234567890) com os dígitos
+      em Euler ($1234567890$). No~entanto, é preciso atentar para um
+      detalhe importante: \emph{só são diagramados em Euler os
+        algarismos que estiverem em modo matemático}. Para garantir
+      que os números apareçam no fonte Euler, coloque-os entre um par
+      de~\$.
+
+    \item \texttt{beton}: como o fonte Euler é um pouco mais pesado do
+      que fonte matemático normal, Knuth achou necessário desenvolver
+      um fonte de texto compatível, também mais escuro, chamado
+      \emph{Concrete}. A~classe \texttt{ata} comporta a opção
+      \texttt{beton}, que faz com que esse fonte seja usado em todo o
+      texto da ata. Para um resultado melhor, você deve usar ou as
+      duas opções (\texttt{euler} e \texttt{beton}), ou nenhuma.
+
+    \end{enumerate}
+    
+  \end{enumerate}
+
+\end{ponto}
+
+
+\begin{ponto}{Comandos para processar a data}
+
+  Os~comandos \verb+\dia+, \verb+\mes+, e \verb+\ano+, todos de um
+  argumento numérico obrigatório, fazem o óbvio: definem dia, mês e
+  ano. Você deve passar os argumentos na forma de valores numéricos
+  (i.e., \emph{não} em modo matemático). Após definir dia, mês e ano,
+  você pode usar, no cabeçalho e no corpo da ata, o comando
+  \verb+\hoje+ para produzir a data no formato \texttt{dd/mm/aaaa} e o
+  comando \verb+\hojeporextenso+ para produzir a data no formato
+  \texttt{Aos dd de mmmmmmm de aaaa} (com o nome do mês por extenso).
+
+\end{ponto}
+
+
+\begin{ponto}{Comandos relativos ao tipo de reunião}
+
+  O~comando \verb+\deftiporeuniao+, de um argumento obrigatório,
+  define o tipo da reunião (ordinária ou extraordinária). O comando
+  \verb+\deftiporeuniaoadv+, também de um argumento obrigatório,
+  define o advérbio correspondente (ordinariamente ou
+  extraordinariamente). No corpo da ata, essa informação pode ser
+  produzida com os comandos \verb+\tiporeuniao+ e
+  \verb+\tiporeuniaoadv+, respectivamente.
+
+\end{ponto}
+
+
+\begin{ponto}{Comandos para gerar o cabeçalho}
+
+  O~comando \verb+\cabecalho+, de um argumento obrigatório, define o
+  cabeçalho da ata (que é diagramado de forma análoga ao título pela
+  classe \texttt{article}). Caso você deseje quebras de linha em
+  locais específicos do cabeçalho, você deve inseri-las manualmente no
+  argumento deste comando.
+
+\end{ponto}
+
+
+\begin{ponto}{Comandos relativos à presidência e à secretaria}
+
+  Os~comandos \verb+\defpresidiu+, \verb+\defcargopresidiu+, e
+  \verb+\defsecretariou+, todos de um argumento obrigatório, definem
+  os nomes das pessoas que desempenharam essas funções na reunião, bem
+  como o cargo de quem presidiu. No corpo da ata, esses nomes podem
+  ser produzidos com os comandos \verb+\presidiu+,
+  \verb+\cargopresidiu+, e \verb+\secretariou+, respectivamente.
+
+\end{ponto}
+
+
+\begin{ponto}{Listas de presentes e ausentes}
+
+  Os~comandos \verb+\defpresentes+, \verb+\defausentes+, e
+  \verb+\defjustif+, todos de um argumento obrigatório, definem as
+  listas das pessoas que estavam presentes, ausentes, e ausentes com
+  justificativa, respectivamente. No corpo da ata, essas listas podem
+  ser produzidas com os comandos \verb+\presentes+, \verb+\ausentes+,
+  e \verb+\justificados+, respectivamente. Ao~definir essas listas,
+  você pode usar quebras de linha à vontade, mas \emph{não termine a
+    lista com ponto final}.
+
+\end{ponto}
+
+
+\begin{ponto}{Comandos e ambiente para pontos da pauta}
+
+  Este é o recurso principal da classe \texttt{ata}. Cada ponto de
+  pauta é definido através do ambiente \texttt{ponto}, de um argumento
+  obrigatório, da seguinte forma:
+  \verb+\begin{ponto}{xxx} yyy \end{ponto}+, onde \verb+xxx+ é o nome
+  do ponto, e \verb+yyy+ o desenvolvimento do ponto. A numeração dos
+  pontos é automática. Observe que o nome do ponto é um argumento
+  obrigatório. O nome do ponto deve começar por maiúscula. Não termine
+  o nome do ponto com qualquer pontuação. O desenvolvimento do ponto pode
+  incluir quebras de linhas, itemizações, enumerações, etc. (veja o
+  ponto~\ref{listas} abaixo). Caso você deseje definir um \emph{label}
+  para que o ponto possa ser referenciado pelo seu número a partir de
+  outros locais do texto, passe esse \emph{label} para o argumento
+  \texttt{ponto} na forma de um argumento opcional, antes do título:
+  \verb+\begin{ponto}[lll]{xxx} yyy \end{ponto}+. No corpo da ata, o
+  comando \verb+\pauta+ produz a lista numerada dos nomes dos pontos,
+  cada nome seguido de vírgula (com exceção do último, que é seguido
+  de ponto final). O~comando \verb+\desenvolvimento+ produz a lista
+  numerada dos nomes dos pontos da pauta, seguidos de dois pontos (:),
+  seguidos dos desenvolvimentos dos pontos da pauta.
+
+\end{ponto}
+
+
+\begin{ponto}[listas]{Enumerações, listas de itens e descrições} 
+
+  Os~ambientes \texttt{itemize}, \texttt{enumerate} e
+  \texttt{description} podem ser usados normalmente dentro do
+  desenvolvimento de um ponto. Estes ambientes foram redefinidos para
+  não produzir quebras de linhas, o que não impede você de diagramar o
+  seu fonte \LaTeX{} do jeito que você achar mais conveniente, com
+  linhas em branco entre itens, etc. Por \emph{default}, os pontos da
+  pauta são rotulados com números arábicos, e os itens de listas
+  enumeradas dentro de um ponto são rotulados com letras minúsculas.
+  Caso você deseje usar outro tipo de rótulo para os itens de uma
+  enumeração, leia a documentação do pacote \texttt{paralist}.
+  Basicamente, você deve passar um argumento opcional para o ambiente
+  \verb+enumerate+. Por exemplo, a lista enumerada no item~\ref{fonts}
+  do ponto~\ref{opcoes} desta ata foi rotulada com números romanos
+  minúsculos através do seguinte código:
+  \verb+\begin{enumerate}[(i)] ... \end{enumerate}+. Caso você deseje
+  referenciar um item de uma lista enumerada, use o~comando
+  \verb+\label+ normalmente.
+
+\end{ponto}
+
+
+\begin{ponto}{Abreviaturas para ``Professor'' e ``Professora''}
+
+  Para garantir o espacejamento correto (``\prof Náufel'' em oposição
+  a ``Prof. Náufel''), use o~comando \verb+\prof+ para produzir a
+  abreviatura \prof e o~comando \verb+\profa+ para produzir a
+  abreviatura \profa. Deixe apenas espaços entre o~comando e o~nome
+  do(a) professor(a).
+
+\end{ponto}
+
+
+\begin{ponto}{Configurações}
+
+  Por enquanto, a única opção de configuração é o~comando
+  \verb+\estilonomeponto+, definido por \emph{default} como
+  \verb+\bfseries+, que determina o estilo usado para produzir os
+  nomes dos pontos, tanto no comando \verb+\pauta+ quanto no comando
+  \verb+\desenvolvimento+. Para alterar esse estilo, use
+  \verb+\renewcommand{\estilonomeponto}{...}+.
+
+\end{ponto}
+
+
+\begin{ponto}{Licença}
+
+  A classe \texttt{ata} está sendo disponibilizada segundo a licença
+  \emph{LaTeX Project Public License}, que pode ser obtida em
+  \url{http://www.latex-project.org/lppl.txt}, na sua versão $1.3$ ou
+  mais recente.
+
+\end{ponto}
+
+
+\begin{ponto}{Contato, dúvidas, relatos de \emph{bugs} e sugestões}
+
+  Por favor, envie e-mail para \url{fnaufel@gmail.com}.
+
+\end{ponto}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Corpo da ata. Basicamente sempre o mesmo. Verificar se a pauta foi
+% aprovada por unanimidade. Se não houver faltantes, eliminar a(s)
+% linha(s) correspondente(s).
+
+\hojeporextenso, reuniram-se \tiporeuniaoadv{} os professores do
+Departamento de Física e Matemática (RFM) do Instituto de Ciência e
+Tecnologia do PURO/Universidade Federal Fluminense.
+%
+Compareceram os professores \presentes. 
+%
+Justificaram ausência os professores \justificados.
+%
+Faltaram os professores \ausentes.
+%
+Abrindo a reunião, o \prof \presidiu, \cargopresidiu, apresentou a
+seguinte proposta de pauta, que foi aprovada por unanimidade pela
+plenária:
+%
+\pauta
+%
+A reunião se desenvolveu conforme se segue:
+% 
+\desenvolvimento
+% 
+Não havendo mais a tratar, a reunião foi encerrada, da qual eu,
+\secretariou, lavrei a presente ata, que vai assinada por mim e pelo
+chefe do departamento.
+%
+\end{document}
